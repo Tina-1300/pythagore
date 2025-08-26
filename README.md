@@ -2,7 +2,7 @@
 
 allows you to solve the Pythagorean theorem in Python
 
-## ✨ Fonctionnalités
+## ✨ Features
 
 - Calculate the hypotenuse from the two adjacent sides (`a` and `b`)
 - Calculate a missing side if the hypotenuse and another side are known
