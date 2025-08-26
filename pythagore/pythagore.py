@@ -27,4 +27,4 @@ class Pythagore:
     def hypotenus(cote_a, cote_b):
         return math.sqrt(math.pow(cote_a, 2) + math.pow(cote_b, 2))
     
-
+    

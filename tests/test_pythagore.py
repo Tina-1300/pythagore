@@ -22,9 +22,19 @@ class TestHypotenuse(unittest.TestCase):
 
         self.assertEqual(self.pythagore.hypotenus(self.a, self.b), 5)
 
+        self.assertAlmostEqual(self.pythagore.hypotenus(5, 12), 13)
+
+        self.assertAlmostEqual(self.pythagore.hypotenus(8, 15), 17)
+
+
     def test_other_side(self):
 
         self.assertEqual(self.pythagore.adjacent_side(self.hypotenuse, self.a), self.b)
+
+        self.assertAlmostEqual(self.pythagore.adjacent_side(13, 5), 12)
+
+        self.assertAlmostEqual(self.pythagore.adjacent_side(17, 8), 15)
+
     
     def test_is_rectangle(self):
         
