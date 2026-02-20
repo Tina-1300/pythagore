@@ -8,9 +8,9 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 
 from pythagore import Pythagore
+import math
 
-
-class TestHypotenuse(unittest.TestCase):
+class TestPythagore(unittest.TestCase):
 
     def setUp(self):
         self.a = 3
@@ -18,29 +18,48 @@ class TestHypotenuse(unittest.TestCase):
         self.pythagore = Pythagore()
         self.hypotenuse = self.pythagore.hypotenus(self.a, self.b)
 
+    # -------------------------
+    # Test hypotenuse
+    # -------------------------
     def test_hypotenuse(self):
-
-        self.assertEqual(self.pythagore.hypotenus(self.a, self.b), 5)
-
+        self.assertEqual(self.hypotenuse, 5)
         self.assertAlmostEqual(self.pythagore.hypotenus(5, 12), 13)
-
         self.assertAlmostEqual(self.pythagore.hypotenus(8, 15), 17)
 
-
-    def test_other_side(self):
-
-        self.assertEqual(self.pythagore.adjacent_side(self.hypotenuse, self.a), self.b)
-
+    # -------------------------
+    # Test adjacent side
+    # -------------------------
+    def test_adjacent_side(self):
+        self.assertEqual(
+            self.pythagore.adjacent_side(self.hypotenuse, self.a),
+            self.b
+        )
         self.assertAlmostEqual(self.pythagore.adjacent_side(13, 5), 12)
-
         self.assertAlmostEqual(self.pythagore.adjacent_side(17, 8), 15)
 
-    
-    def test_is_rectangle(self):
-        
-        self.assertEqual(self.pythagore.is_rectangle(self.hypotenuse, self.a, self.b), True)
+    # -------------------------
+    # Test is_rectangle
+    # -------------------------
+    def test_is_rectangle_true(self):
+        self.assertTrue(
+            self.pythagore.is_rectangle(self.hypotenuse, self.a, self.b)
+        )
+        self.assertTrue(self.pythagore.is_rectangle(13, 5, 12))
+        self.assertTrue(self.pythagore.is_rectangle(17, 8, 15))
 
-        self.assertNotEqual(self.pythagore.is_rectangle(self.hypotenuse, self.a, self.b), False)
+    def test_is_rectangle_false(self):
+        self.assertFalse(self.pythagore.is_rectangle(10, 3, 4))
+        self.assertFalse(self.pythagore.is_rectangle(5, 5, 5))
+
+    # -------------------------
+    # Test float precision
+    # -------------------------
+    def test_float_precision(self):
+        a = math.sqrt(2)
+        b = math.sqrt(2)
+        c = 2
+
+        self.assertTrue(self.pythagore.is_rectangle(c, a, b))
 
 
 

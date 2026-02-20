@@ -1,7 +1,6 @@
 import math
 
 class Pythagore:
-
     """
     The Pythagoras class makes it easier to calculate the Pythagorean theorem.
     """
@@ -9,14 +8,8 @@ class Pythagore:
     # parameter OP the largest side, the other two parameters are the other values ​​of the rectangle
     @staticmethod
     def is_rectangle(hypotenuse, side_a, side_b):
-        result_op = math.pow(hypotenuse, 2)
-        pn = math.pow(side_a, 2)
-        no = math.pow(side_b, 2)
-        result = pn + no
-        if result_op != result:
-            return False
-        return True
-        
+        return math.isclose(hypotenuse**2, side_a**2 + side_b**2, rel_tol=1e-9)
+
     # hypotenus parameter, one side to find the missing side
     @staticmethod 
     def adjacent_side(hypotenuse, other_side):
@@ -30,7 +23,7 @@ class Pythagore:
     # return the current version
     @staticmethod
     def current_version():
-        return "Current Version : 1.3.0"
+        return "Current Version : 1.3.1"
     
     # return the creator's nickname and his github profile
     @staticmethod
