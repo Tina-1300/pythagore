@@ -1,6 +1,7 @@
 import sys
 import os
 import unittest
+import time
 
 # python -m unittest test_pythagore.py
 
@@ -19,12 +20,26 @@ class TestPythagore(unittest.TestCase):
         self.hypotenuse = self.pythagore.hypotenus(self.a, self.b)
 
     # -------------------------
+    # Benchmark helper
+    # -------------------------
+    def benchmark(self, func, *args, repeats=100000):
+        start = time.perf_counter()
+        for _ in range(repeats):
+            func(*args)
+        end = time.perf_counter()
+        print(f"Benchmark {func.__name__}: {(end - start):.6f} sec for {repeats} runs")
+
+
+    # -------------------------
     # Test hypotenuse
     # -------------------------
     def test_hypotenuse(self):
         self.assertEqual(self.hypotenuse, 5)
         self.assertAlmostEqual(self.pythagore.hypotenus(5, 12), 13)
         self.assertAlmostEqual(self.pythagore.hypotenus(8, 15), 17)
+
+        # Benchmark
+        self.benchmark(self.pythagore.hypotenus, 3, 4)
 
     # -------------------------
     # Test adjacent side
@@ -37,6 +52,9 @@ class TestPythagore(unittest.TestCase):
         self.assertAlmostEqual(self.pythagore.adjacent_side(13, 5), 12)
         self.assertAlmostEqual(self.pythagore.adjacent_side(17, 8), 15)
 
+        # benchmark
+        self.benchmark(self.pythagore.adjacent_side, 5, 3)
+
     # -------------------------
     # Test is_rectangle
     # -------------------------
@@ -46,6 +64,9 @@ class TestPythagore(unittest.TestCase):
         )
         self.assertTrue(self.pythagore.is_rectangle(13, 5, 12))
         self.assertTrue(self.pythagore.is_rectangle(17, 8, 15))
+
+        # benchmark
+        self.benchmark(self.pythagore.is_rectangle, 5, 3, 4)
 
     def test_is_rectangle_false(self):
         self.assertFalse(self.pythagore.is_rectangle(10, 3, 4))

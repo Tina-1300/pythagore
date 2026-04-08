@@ -23,7 +23,7 @@ class Pythagore:
     # return the current version
     @staticmethod
     def current_version():
-        return "Current Version : 1.3.1"
+        return "Current Version : 1.4.1"
     
     # return the creator's nickname and his github profile
     @staticmethod
