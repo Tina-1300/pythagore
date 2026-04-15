@@ -6,7 +6,7 @@ import math
 
 __creator__ = "Creator : Tina"
 __github__ = "GitHub : https://github.com/Tina-1300"
-__currentversion__ = "1.4.1"
+__currentversion__ = "1.5.0"
 
 
 def is_rectangle(hypotenuse, side_a, side_b):

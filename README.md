@@ -1,50 +1,82 @@
 # pythagore
 
-allows you to solve the Pythagorean theorem in Python
+A simple Python utility to work with the Pythagorean theorem.
+
+---
 
 ## ✨ Features
 
-- Calculate the hypotenuse from the two adjacent sides (`a` and `b`)
-- Calculate a missing side if the hypotenuse and another side are known
-- Check if a triangle is a right triangle by applying the Pythagorean theorem
+- Calculate the hypotenuse from two sides
+- Calculate a missing side using the hypotenuse
+- Verify if a triangle is right-angled
+- Retrieve library metadata (version, creator)
+
+---
 
 ## 🔧 Installation
 
-You can install this module with `pip`:
+Install via pip:
 
 ```bash
 pip install pythagore
 ```
 
 ## 🚀 Utilisation
+
+This library is now a simple module (no class required).
+
 Here is an example of using the module :
 
 ```python
-from pythagore import Pythagore
-
-pythagore = Pythagore()
+from pythagore import hypotenuse, adjacent_side, is_rectangle
 
 a = 3
 b = 4
-hypotenuse = pythagore.hypotenus(a,b) # hypotenus 
 
-if pythagore.is_rectangle(hypotenuse, a, b) == True:
-    print("the triangle is indeed right-angled according to the Pythagorean theorem")
-else:
-    print("the triangle is not a right triangle")
+h = hypotenuse(a, b)
 
-find_missing_side = pythagore.adjacent_side(hypotenuse, a) # 4
-if find_missing_side == b:
-    print(f"the missing side is b its value and : {find_missing_side}")
+print("Hypotenuse : ", h)
 
-print()
+print("Is right triangle : ", is_rectangle(h, a, b))
 
-print(f"hypotenus : {hypotenuse}\ncoter_a : {a}\ncote_b : {b}")
+missing = adjacent_side(h, a)
+print("Missing side : ", missing)
 ```
+
+example output
+
+```txt
+Hypotenuse: 5.0
+Is right triangle: True
+Missing side: 4.0
+```
+
+## 📦 Metadata
+
+You can also access library information:
+
+
+```python
+from pythagore import current_version, creator
+
+print(current_version())
+print(creator())
+```
+
+example output 
+
+```txt
+1.5.0
+Creator : Tina
+GitHub : https://github.com/Tina-1300
+```
+
 
 ## ❗ Prerequisites
 
 - Python >= 3.13.0
+- This library uses only the standard library (math)
+- No external dependencies required
 
 📄 Licence
 

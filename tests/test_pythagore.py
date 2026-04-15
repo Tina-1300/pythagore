@@ -84,7 +84,7 @@ class TestPythagore(unittest.TestCase):
         self.assertTrue(is_rectangle(c, a, b))
 
     def test_metadata(self):
-        self.assertEqual(current_version(), "1.4.1")
+        self.assertEqual(current_version(), "1.5.0")
         self.assertIn("Tina", creator())
 
 

@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on Keep a Changelog
 and this project adheres to Semantic Versioning (SemVer).
 
+---
+
+## [1.5.0] - 2026-04-15
+### Fixed and Recactore
+- CI/CD
+- unittest: test_pythagore.py
+- source code: pythagore.py and __init__.py
+- readme.md
+
 
 ---
 
