@@ -1,5 +1,9 @@
 import math
 
+__creator__ = "Creator : Tina"
+__github__ =  "GitHub : https://github.com/Tina-1300"
+__currentversion__ = "1.4.1"
+
 class Pythagore:
     """
     The Pythagoras class makes it easier to calculate the Pythagorean theorem.
@@ -23,12 +27,12 @@ class Pythagore:
     # return the current version
     @staticmethod
     def current_version():
-        return "Current Version : 1.4.1"
+        return f"Current Version : {__currentversion__}"
     
     # return the creator's nickname and his github profile
     @staticmethod
     def creator():
-        return "Creator : Tina\nGitHub : https://github.com/Tina-1300"
+        return f"{__creator__}\n{__github__}"
 
     # Displays the representation of the Pythagore class
     @staticmethod

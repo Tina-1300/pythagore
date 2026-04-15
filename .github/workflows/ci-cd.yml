@@ -5,59 +5,82 @@ on:
         branches:
             - dev
             - main
+            - "feature/**"
+            - "feat/**"
+            - "fix/**"
+            - "bugfix/**"
+            - "tests/**"
+            - "test/**"
+            - "chore/**"
+            - "hotfix/**"
+            - "release/**"
         tags:
-            - 'v*'
+            - "v*"
 
-    release: 
+    pull_request:
+        branches:
+            - dev
+            - main
+
+    release:
         types: [published]
 
 jobs:
     test:
         runs-on: ubuntu-latest
         steps:
-          - uses: actions/checkout@v3
-          
-          - name: Set up Python
-            uses: actions/setup-python@v4
-            with:
-              python-version: '3.13.0'
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-          - name: Install dependencies
-            run: |
-                python -m pip install --upgrade pip
-            
-          - name: Run tests
-            run: |
-                python -m unittest discover -s tests -p "*.py"
+            - name: Set up Python 3.13
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.13"
+                  cache: "pip"
 
+            - name: Install dependencies for testing
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install pytest
+
+            - name: Install the package in editable mode
+              run: |
+                  pip install -e .
+
+            - name: Run tests with pytest
+              run: |
+                  pytest tests/ -v --tb=short
 
     publish:
         needs: test
         runs-on: ubuntu-latest
         if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'release'
+
         steps:
-          - name: Checkout repo
-            uses: actions/checkout@v3
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-          - name : Setup Python 
-            uses: actions/setup-python@v4
-            with:
-              python-version: '3.13.0'
-        
-          - name: Install build tools
-            run: |
-                python -m pip install --upgrade pip
-                pip install build twine
-          
-          - name: Clean dist folder
-            run: rm -rf dist/*
-        
-          - name: Build package
-            run: python -m build 
+            - name: Set up Python 3.13
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.13"
+                  cache: "pip"
 
-          - name: Publish to PyPI
-            env: 
-                TWINE_USERNAME: __token__
-                TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-            run: 
-                python -m twine upload --verbose dist/*
+            - name: Install build tools
+              run: |
+                  python -m pip install --upgrade pip
+                  pip install build twine
+
+            - name: Clean previous build artifacts
+              run: |
+                  rm -rf dist/ build/ *.egg-info/
+
+            - name: Build package
+              run: python -m build
+
+            - name: Publish to PyPI
+              env:
+                  TWINE_USERNAME: __token__
+                  TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+              run: |
+                  python -m twine upload --verbose dist/*
