@@ -1,40 +1,34 @@
+"""
+Utilities for Pythagorean theorem.
+"""
+
 import math
 
 __creator__ = "Creator : Tina"
-__github__ =  "GitHub : https://github.com/Tina-1300"
+__github__ = "GitHub : https://github.com/Tina-1300"
 __currentversion__ = "1.4.1"
 
-class Pythagore:
-    """
-    The Pythagoras class makes it easier to calculate the Pythagorean theorem.
-    """
 
-    # parameter OP the largest side, the other two parameters are the other values ​​of the rectangle
-    @staticmethod
-    def is_rectangle(hypotenuse, side_a, side_b):
-        return math.isclose(hypotenuse**2, side_a**2 + side_b**2, rel_tol=1e-9)
+def is_rectangle(hypotenuse, side_a, side_b):
+    "hypotenuse = longest side"
+    return math.isclose(hypotenuse**2, side_a**2 + side_b**2, rel_tol=1e-9)
 
-    # hypotenus parameter, one side to find the missing side
-    @staticmethod 
-    def adjacent_side(hypotenuse, other_side):
-        return math.sqrt(pow(hypotenuse, 2) - pow(other_side, 2))
 
-    # the two sides of the triangle to find the hypotenus
-    @staticmethod
-    def hypotenus(side_a, side_b):
-        return math.sqrt(math.pow(side_a, 2) + math.pow(side_b, 2))
+def adjacent_side(hypotenuse, other_side):
+    """Return the missing side"""
+    return math.sqrt(hypotenuse**2 - other_side**2)
 
-    # return the current version
-    @staticmethod
-    def current_version():
-        return f"Current Version : {__currentversion__}"
-    
-    # return the creator's nickname and his github profile
-    @staticmethod
-    def creator():
-        return f"{__creator__}\n{__github__}"
 
-    # Displays the representation of the Pythagore class
-    @staticmethod
-    def __repr__():
-        return "Pythagoras - Utility classes for the Pythagorean theorem. Created by Tina"
+def hypotenuse(side_a, side_b):
+    """Return hypotenuse"""
+    return math.sqrt(side_a**2 + side_b**2)
+
+
+def current_version():
+    "Return the current version of the library"
+    return __currentversion__
+
+
+def creator():
+    "Return the name and profile github of the creator"
+    return f"{__creator__}\n{__github__}"

@@ -8,7 +8,13 @@ import time
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
-from pythagore import Pythagore
+from pythagore import (
+    hypotenuse,
+    adjacent_side,
+    is_rectangle,
+    current_version,
+    creator
+)
 import math
 
 class TestPythagore(unittest.TestCase):
@@ -16,8 +22,7 @@ class TestPythagore(unittest.TestCase):
     def setUp(self):
         self.a = 3
         self.b = 4
-        self.pythagore = Pythagore()
-        self.hypotenuse = self.pythagore.hypotenus(self.a, self.b)
+        self.h = hypotenuse(self.a, self.b)
 
     # -------------------------
     # Benchmark helper
@@ -34,43 +39,39 @@ class TestPythagore(unittest.TestCase):
     # Test hypotenuse
     # -------------------------
     def test_hypotenuse(self):
-        self.assertEqual(self.hypotenuse, 5)
-        self.assertAlmostEqual(self.pythagore.hypotenus(5, 12), 13)
-        self.assertAlmostEqual(self.pythagore.hypotenus(8, 15), 17)
+        self.assertEqual(self.h, 5)
+        self.assertAlmostEqual(hypotenuse(5, 12), 13)
+        self.assertAlmostEqual(hypotenuse(8, 15), 17)
 
-        # Benchmark
-        self.benchmark(self.pythagore.hypotenus, 3, 4)
+        self.benchmark(hypotenuse, 3, 4)
 
     # -------------------------
     # Test adjacent side
     # -------------------------
     def test_adjacent_side(self):
         self.assertEqual(
-            self.pythagore.adjacent_side(self.hypotenuse, self.a),
+            adjacent_side(self.h, self.a),
             self.b
         )
-        self.assertAlmostEqual(self.pythagore.adjacent_side(13, 5), 12)
-        self.assertAlmostEqual(self.pythagore.adjacent_side(17, 8), 15)
 
-        # benchmark
-        self.benchmark(self.pythagore.adjacent_side, 5, 3)
+        self.assertAlmostEqual(adjacent_side(13, 5), 12)
+        self.assertAlmostEqual(adjacent_side(17, 8), 15)
+
+        self.benchmark(adjacent_side, 5, 3)
 
     # -------------------------
     # Test is_rectangle
     # -------------------------
     def test_is_rectangle_true(self):
-        self.assertTrue(
-            self.pythagore.is_rectangle(self.hypotenuse, self.a, self.b)
-        )
-        self.assertTrue(self.pythagore.is_rectangle(13, 5, 12))
-        self.assertTrue(self.pythagore.is_rectangle(17, 8, 15))
+        self.assertTrue(is_rectangle(self.h, self.a, self.b))
+        self.assertTrue(is_rectangle(13, 5, 12))
+        self.assertTrue(is_rectangle(17, 8, 15))
 
-        # benchmark
-        self.benchmark(self.pythagore.is_rectangle, 5, 3, 4)
+        self.benchmark(is_rectangle, 5, 3, 4)
 
     def test_is_rectangle_false(self):
-        self.assertFalse(self.pythagore.is_rectangle(10, 3, 4))
-        self.assertFalse(self.pythagore.is_rectangle(5, 5, 5))
+        self.assertFalse(is_rectangle(10, 3, 4))
+        self.assertFalse(is_rectangle(5, 5, 5))
 
     # -------------------------
     # Test float precision
@@ -80,8 +81,11 @@ class TestPythagore(unittest.TestCase):
         b = math.sqrt(2)
         c = 2
 
-        self.assertTrue(self.pythagore.is_rectangle(c, a, b))
+        self.assertTrue(is_rectangle(c, a, b))
 
+    def test_metadata(self):
+        self.assertEqual(current_version(), "1.4.1")
+        self.assertIn("Tina", creator())
 
 
 if __name__ == '__main__':
