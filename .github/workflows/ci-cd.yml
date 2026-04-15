@@ -8,6 +8,8 @@ on:
             - "feature/**"
             - "feat/**"
             - "fix/**"
+            - "refactor/**"
+            - "refact/**"
             - "bugfix/**"
             - "tests/**"
             - "test/**"
