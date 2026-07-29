@@ -1,83 +1,89 @@
 name: Pythagore CI/CD
 
 on:
-    push:
-        branches:
-            - dev
-            - main
-            - "feature/**"
-            - "feat/**"
-            - "fix/**"
-            - "refactor/**"
-            - "refact/**"
-            - "bugfix/**"
-            - "tests/**"
-            - "test/**"
-            - "chore/**"
-            - "hotfix/**"
-            - "release/**"
-        tags:
-            - "v*"
+  push:
+    branches:
+      - main
+      - "feature/**"
+      - "feat/**"
+      - "fix/**"
+      - "bugfix/**"
+      - "hotfix/**"
+      - "refactor/**"
+      - "refact/**"
+      - "chore/**"
+      - "test/**"
+      - "tests/**"
+    tags:
+      - "v*"
 
-    pull_request:
-        branches:
-            - dev
-            - main
+  pull_request:
+    branches:
+      - main
 
-    release:
-        types: [published]
+  release:
+    types: [published]
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+  test:
+    runs-on: ubuntu-latest
 
-            - name: Set up Python 3.13
-              uses: actions/setup-python@v5
-              with:
-                  python-version: "3.13"
-                  cache: "pip"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Install dependencies for testing
-              run: |
-                   python -m pip install --upgrade pip
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
 
-            - name: Run tests with unittest
-              run: |
-                  python -m unittest discover -s tests -p "*.py"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
 
-    publish:
-        needs: test
-        runs-on: ubuntu-latest
-        if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'release'
+          # Si tu as un requirements.txt
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+          # Si tu as des dépendances de dev
+          if [ -f requirements-dev.txt ]; then
+            pip install -r requirements-dev.txt
+          fi
 
-            - name: Set up Python 3.13
-              uses: actions/setup-python@v5
-              with:
-                  python-version: "3.13"
-                  cache: "pip"
+      - name: Run tests
+        run: |
+          python -m unittest discover -s tests -p "*.py"
 
-            - name: Install build tools
-              run: |
-                  python -m pip install --upgrade pip
-                  pip install build twine
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
 
-            - name: Clean previous build artifacts
-              run: |
-                  rm -rf dist/ build/ *.egg-info/
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Build package
-              run: python -m build
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
 
-            - name: Publish to PyPI
-              env:
-                  TWINE_USERNAME: __token__
-                  TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-              run: |
-                  python -m twine upload --verbose dist/*
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install build twine
+
+      - name: Clean build artifacts
+        run: rm -rf dist build *.egg-info
+
+      - name: Build package
+        run: python -m build
+
+      - name: Publish to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        run: python -m twine upload dist/*

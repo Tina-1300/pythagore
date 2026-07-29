@@ -7,6 +7,10 @@ and this project adheres to Semantic Versioning (SemVer).
 
 ---
 
+## [1.6.0] - 2026-07-29
+### Refacore
+- CI/CD
+
 ## [1.5.0] - 2026-04-15
 ### Fixed and Recactore
 - CI/CD
